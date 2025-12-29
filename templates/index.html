@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Website Scraper</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="snow-container"></div>
+
+    <div class="glass-panel">
+        <header>
+            <h1>Web Scraper</h1>
+            <p class="subtitle">Enter a URL to extract content</p>
+        </header>
+
+        <div class="input-group">
+            <input type="text" id="urlInput" placeholder="https://example.com" autocomplete="off">
+            <button onclick="startScrape()" id="scrapeBtn">Scrape</button>
+        </div>
+
+        <div class="loader-container" id="loaderContainer">
+            <div class="loader-bar"></div>
+        </div>
+
+        <div id="status-message"></div>
+
+        <div class="actions" id="actionArea">
+            <button id="downloadBtn" onclick="downloadJSON()" class="secondary-btn">
+                Download JSON
+            </button>
+        </div>
+
+        <div id="sections" class="results-area"></div>
+    </div>
+
+    <script src="/static/main.js"></script>
+</body>
+</html>

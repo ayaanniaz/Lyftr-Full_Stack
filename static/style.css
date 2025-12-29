@@ -1,0 +1,213 @@
+/* Reset & Base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: radial-gradient(circle at top, #1e293b, #0f172a);
+    color: #e2e8f0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Snowflake Effect */
+#snow-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.snowflake {
+    position: absolute;
+    top: -10px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% { transform: translateY(-10px) translateX(0); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(100vh) translateX(20px); opacity: 0.3; }
+}
+
+/* Glassmorphism Card */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border-radius: 16px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 600px;
+    z-index: 1;
+    transition: height 0.3s ease;
+}
+
+/* Typography */
+h1 {
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.subtitle {
+    text-align: center;
+    color: #94a3b8;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+}
+
+/* Input Section */
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+}
+
+input {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 16px;
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+input:focus {
+    border-color: #38bdf8;
+}
+
+button {
+    background: #38bdf8;
+    color: #0f172a;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.1s, background 0.2s;
+}
+
+button:hover {
+    background: #7dd3fc;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+button:disabled {
+    background: #475569;
+    color: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Loading Bar */
+.loader-container {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    display: none; /* Hidden by default */
+}
+
+.loader-bar {
+    height: 100%;
+    background: #38bdf8;
+    width: 50%;
+    animation: loading 1.5s infinite ease-in-out;
+}
+
+@keyframes loading {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(250%); }
+}
+
+/* Status & Actions */
+#status-message {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin-bottom: 1rem;
+    min-height: 1.2em;
+}
+
+.actions {
+    display: none; /* Hidden until success */
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.secondary-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e2e8f0;
+}
+
+.secondary-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Results Area */
+details {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+
+summary {
+    padding: 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    user-select: none;
+    transition: background 0.2s;
+}
+
+summary:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+pre {
+    padding: 15px;
+    font-size: 0.8rem;
+    color: #cbd5e1;
+    overflow-x: auto;
+    background: rgba(0, 0, 0, 0.3);
+    margin: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Scrollbar for Pre */
+pre::-webkit-scrollbar {
+    height: 6px;
+}
+pre::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+}
+pre::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.2);
+    border-radius: 3px;
+}
