@@ -67,7 +67,7 @@ async function startScrape() {
         
         if (data.result && data.result.sections) {
             renderSections(data.result.sections);
-            status.textContent = "Success!";
+            status.textContent = "Success! Download result for detailed view";
             status.style.color = "#4ade80"; // Green
             actionArea.style.display = "flex"; // Show download button
         } else {
