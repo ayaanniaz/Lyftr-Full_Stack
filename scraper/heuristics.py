@@ -24,4 +24,3 @@ def needs_js_rendering(sections, html=None):
         return True
 
     return False
-

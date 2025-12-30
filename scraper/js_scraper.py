@@ -8,7 +8,19 @@ def fetch_js_rendered_html(url, interactions, timeout=30000):
     - Ensures >= 3 scrolls
     - Tracks pages + scroll count
     """
+    def perform_scrolls(page, interactions, max_scrolls=3):
+            last_height = page.evaluate("document.body.scrollHeight")
 
+            for _ in range(max_scrolls):
+                page.mouse.wheel(0, last_height)
+                page.wait_for_timeout(1500)
+
+                new_height = page.evaluate("document.body.scrollHeight")
+                if new_height == last_height:
+                    break
+
+                last_height = new_height
+                interactions["scrolls"] += 1
     with sync_playwright() as p:
         browser = p.chromium.launch(
             headless=True,
@@ -26,7 +38,7 @@ def fetch_js_rendered_html(url, interactions, timeout=30000):
 
         page = context.new_page()
         page.goto(url, wait_until="domcontentloaded", timeout=timeout)
-
+        perform_scrolls(page, interactions)
         interactions["pages"].append(page.url)
 
         # Wait for first articles
@@ -58,6 +70,7 @@ def fetch_js_rendered_html(url, interactions, timeout=30000):
                 interactions["pages"].append(page.url)
 
         html = page.content()
+
 
         context.close()
         browser.close()

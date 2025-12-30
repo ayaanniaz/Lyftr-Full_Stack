@@ -196,7 +196,7 @@ def extract_sections(html, base_url):
     soup = BeautifulSoup(html, "html.parser")
     sections = []
 
-    # ---- 1. SEMANTIC SECTIONS (existing logic) ----
+    # ---- 1. SEMANTIC SECTIONS ----
     semantic_nodes = soup.find_all(
         ["section", "main", "article", "nav", "header", "footer"]
     )
@@ -235,7 +235,7 @@ def extract_sections(html, base_url):
 
         sections.append({
             "id": f"{node.name}-{idx}",
-            "type": "nav" if node.name == "nav" else "footer" if node.name == "footer" else "section",
+            "type": infer_section_type(node.name),
             "label": label,
             "sourceUrl": base_url,
             "content": {
@@ -251,11 +251,50 @@ def extract_sections(html, base_url):
         })
         idx += 1
 
-    # ---- 2. IMAGE GRID FALLBACK (Unsplash-style) ----
-    # ---- 2. IMAGE GRID EXTRACTION (Unsplash-style) ----
-    grid_sections = extract_image_grid(soup, base_url)
-    sections.extend(grid_sections)
+    # ---- 2. TABLE-BASED FALLBACK (Hacker News, Reddit classic, etc.) ----
+    if not sections:
+        table_sections = extract_table_based_sections(soup, base_url)
+        if table_sections:
+            return table_sections
 
+    # ---- 3. IMAGE GRID FALLBACK (Unsplash-style) ----
+    if not sections:
+        figures = soup.find_all("figure")
+        grid_images = []
+
+        for fig in figures:
+            img = fig.find("img")
+            if not img:
+                continue
+
+            src = extract_image_src(img)
+            if not src:
+                continue
+
+            grid_images.append({
+                "src": make_absolute_url(base_url, src),
+                "alt": img.get("alt", "")
+            })
+
+        if grid_images:
+            raw_html, truncated = truncate_html(str(figures[0]))
+            sections.append({
+                "id": "grid-0",
+                "type": "grid",
+                "label": "Image results",
+                "sourceUrl": base_url,
+                "content": {
+                    "headings": [],
+                    "text": "",
+                    "links": [],
+                    "images": grid_images,
+                    "lists": [],
+                    "tables": []
+                },
+                "rawHtml": raw_html,
+                "truncated": truncated
+            })
 
     return sections
+
 

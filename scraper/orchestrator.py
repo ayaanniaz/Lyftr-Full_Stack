@@ -46,6 +46,8 @@ def scrape_url(url):
             html = fetch_js_rendered_html(url, interactions)
             sections = extract_sections(html, url)
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         errors.append({
             "message": str(e),
             "phase": "render"
